@@ -1,3 +1,13 @@
+"""
+M is the length of the file
+The loop goes M/SIZE_SECTION iterations
+Each iteration is SIZE_SECTION to read the section,
+and then the lengrh of frequencies to merge (less than SIZE_SECTION)
+All the loop is (M/SIZE_SECTION)*SIZE_SECTION = M
+Then we have  heapq.nlargest that is cost is O(KlogN) when K is the number of all error codes
+The total is: M + KlogN
+"""
+
 import heapq
 SIZE_SECTION = 50_000
 
@@ -32,5 +42,5 @@ def find_n_common (file_path, N):
 
 
 
-res = find_n_common("logs.txt",5)
+res = find_n_common("logs.txt",2)
 print(res)
