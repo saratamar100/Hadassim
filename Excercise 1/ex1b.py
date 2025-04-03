@@ -12,7 +12,7 @@ def read_file(file_path):
             time, value = line[:-1].split(",")
             value = float(value)
             if math.isnan(value):
-                raise Exception("Value foramt exception")
+                raise Exception("Value format exception")
             date, hour = time.split(" ")
             DD, MM, YYYY = date.split("/")
             hh, mm = hour.split(":")
