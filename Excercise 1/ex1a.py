@@ -41,6 +41,6 @@ def find_n_common (file_path, N):
 
 
 
-
-res = find_n_common("logs.txt",2)
-print(res)
+n = int(input("Please enter an N: "))
+result = find_n_common("logs.txt",n)
+print(result)
