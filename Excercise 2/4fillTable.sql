@@ -25,27 +25,28 @@ BEGIN
       LEAVE read_loop; 
     END IF;
     IF Gender2="Male" THEN 
-		IF Father_Id1 = Preson_Id2 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Father");
-		elseif Father_Id1 = Father_Id2 AND Father_Id1 IS NOT NULL OR Mother_Id1 = Mother_Id2 AND Mother_Id1 IS NOT NULL THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Brother");
-        elseif Father_Id2 = Person_Id1 OR Mother_Id2 = Person_Id1 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Son");
-        elseif Spouse_Id1 = Preson_Id2 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Husband");
-		end if;
+      IF Father_Id1 = Preson_Id2 THEN
+        INSERT into Relative values(Person_Id1,Preson_Id2,"Father");
+      elseif Father_Id1 = Father_Id2 AND Father_Id1 IS NOT NULL OR Mother_Id1 = Mother_Id2 AND Mother_Id1 IS NOT NULL THEN
+        INSERT into Relative values(Person_Id1,Preson_Id2,"Brother");
+      elseif Father_Id2 = Person_Id1 OR Mother_Id2 = Person_Id1 THEN
+        INSERT into Relative values(Person_Id1,Preson_Id2,"Son");
+      elseif Spouse_Id1 = Preson_Id2 THEN
+        INSERT IGNORE into Relative values(Person_Id1,Preson_Id2,"Husband");
+        INSERT IGNORE into Relative values(Person_Id2,Preson_Id1,"Wife");
+      end if;
     
 	Else
-        IF Mother_Id1 = Preson_Id2 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Mother");
-		elseif Father_Id1 = Father_Id2 AND Father_Id1 IS NOT NULL OR Mother_Id1 = Mother_Id2 AND Mother_Id1 IS NOT NULL THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Sister");
-        elseif Father_Id2 = Person_Id1 OR Mother_Id2 = Person_Id1 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Daughter");
-        elseif Spouse_Id1 = Preson_Id2 THEN
-			insert into Relative values(Person_Id1,Preson_Id2,"Wife");
+      IF Mother_Id1 = Preson_Id2 THEN
+			INSERT into Relative values(Person_Id1,Preson_Id2,"Mother");
+		  elseif Father_Id1 = Father_Id2 AND Father_Id1 IS NOT NULL OR Mother_Id1 = Mother_Id2 AND Mother_Id1 IS NOT NULL THEN
+			  INSERT into Relative values(Person_Id1,Preson_Id2,"Sister");
+      elseif Father_Id2 = Person_Id1 OR Mother_Id2 = Person_Id1 THEN
+			  INSERT into Relative values(Person_Id1,Preson_Id2,"Daughter");
+      elseif Spouse_Id1 = Preson_Id2 THEN
+			  INSERT IGNORE into Relative values(Person_Id2,Preson_Id1,"Wife");
+        INSERT IGNORE into Relative values(Person_Id2,Preson_Id1,"Husband");
 		end if;
-    END IF;
 
   END LOOP;
 
