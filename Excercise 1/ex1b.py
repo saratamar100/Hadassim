@@ -3,6 +3,19 @@ from collections import defaultdict
 import math
 
 
+def parse_date_value(timestamp, value):
+    value = float(value)
+    if math.isnan(value):
+        raise Exception("Value format exception")
+    date, hour = timestamp.split(" ")
+    DD, MM, YYYY = date.split("/")
+    hh, mm = hour.split(":")
+    if not (len(DD) == len(MM) == len(hh) == len(mm) == 2) or len(YYYY) != 4:
+        raise Exception("Time format exception")
+    date = datetime.datetime(int(YYYY), int(MM), int(DD), int(hh), int(mm))
+    return date,value
+
+
 def read_file(file_path):
     file = open(file_path, "r")
     file.readline()
@@ -10,15 +23,7 @@ def read_file(file_path):
     for line in file:
         try:
             time, value = line[:-1].split(",")
-            value = float(value)
-            if math.isnan(value):
-                raise Exception("Value format exception")
-            date, hour = time.split(" ")
-            DD, MM, YYYY = date.split("/")
-            hh, mm = hour.split(":")
-            if not (len(DD) == len(MM) == len(hh) == len(mm) == 2) or len(YYYY) != 4:
-                raise Exception("Time format exception")
-            date = datetime.datetime(int(YYYY), int(MM), int(DD), int(hh), int(mm))
+            date,value = parse_date_value(time,value)
             if date not in all_data:
                 all_data[date] = value
         except:

@@ -1,36 +1,31 @@
 import datetime
-from collections import defaultdict
-import math
 
-from ex1b import read_file, calculate_avarages, parse_date_value
+import pyarrow.parquet as pq
 
+from ex1b import parse_date_value, calculate_avarages, read_file
 
-def split_file(file_path):
-    file = open(file_path, "r")
-    file.readline()
+pf = pq.ParquetFile('time.parquet')
+for df in pf.iter_batches():
+    df_batch = df.to_pandas()
     files = dict()
-    for line in file:
+    for index, row in df_batch.iterrows():
         try:
-            time, value = line[:-1].split(",")
-            date, value = parse_date_value(time, value)
+            date, value = parse_date_value(row[0].row[1])
             # date = date.replace(minute=0)
             file_name = date.strftime("%m_%d_%Y_%H")
             if file_name not in files:
                 file_section = open("Sections/" + file_name + ".csv", "w")
                 file_section.write("timestamp,value\n")
-                file_section.write(line)
+                file_section.write(",".join(row))
                 files[file_name] = file_section
             else:
-                files[file_name].write(line)
+                files[file_name].write(",".join(row))
         except:
             pass
     for f in files:
         files[f].close()
-    file.close()
-    return files.keys()
-
-
-files = split_file("time_series.csv")
+    #
+    # files = split_file("time_series.csv")
 standardized_data = dict()
 for file in files:
     standardized_data.update(read_file("Sections/" + file + ".csv"))

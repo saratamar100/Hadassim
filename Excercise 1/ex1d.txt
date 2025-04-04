@@ -1,0 +1,7 @@
+במקרה שהנתונים מגיעים בstream אני אקח כל stream ואעבוד עליו
+ for each stream->
+ for line in stream:
+    time, value = line[:-1].split(",")
+    date,value = parse_date_value(time,value)
+    if date not in all_data:
+        all_data[date] = value
