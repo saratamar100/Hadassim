@@ -4,7 +4,7 @@ import pyarrow.parquet as pq
 
 from ex1b import parse_date_value, calculate_avarages, read_file
 
-pf = pq.ParquetFile('time.parquet')
+pf = pq.ParquetFile('time-series.parquet')
 for df in pf.iter_batches():
     df_batch = df.to_pandas()
     files = dict()
