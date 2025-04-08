@@ -15,7 +15,7 @@ router.get("/:supplierUsername", verifySellerToken, async (req, res) => {
       results.map((p) => ({
         productId: p.product_id,
         productName: p.product_name,
-        price: p.proce,
+        price: p.price,
         minimalAmount: p.minimal_amount,
       }))
     );

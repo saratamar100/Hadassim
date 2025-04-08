@@ -1,5 +1,5 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -9,11 +9,19 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  if (token && user) {
-    if (user.role === "supplier") {
-      navigate("/supplier");
+
+
+  useEffect(() => {
+    if (token && user) {
+      if (user.role === "supplier") {
+        navigate("/supplier");
+      } else if (user.role === "seller") {
+        navigate("/seller");
+      }
     }
-  }
+  }, [token, user]); 
+
+
   const handleEnterSupplier = async () => {
     try {
       const response = await fetch(`http://localhost:3001/api/loginSupplier`, {
@@ -36,7 +44,11 @@ const LoginPage = () => {
       const { token } = data;
       if (token) {
         updateToken(token);
-        updateUser({ role: "supplier", username });
+        updateUser({
+          role: "supplier",
+          username,
+          supplierName: data.supplierName,
+        });
         navigate("/supplier");
       }
     } catch (error) {
@@ -73,9 +85,12 @@ const LoginPage = () => {
       console.error("Error:", error);
     }
   };
+  const handleSugnup = () => {
+    navigate("/signup");
+  };
   return (
-    <Box>
-      <Typography>Enter</Typography>
+    <Stack gap={1} sx={{ mt: 25, alignItems: "center" }}>
+      <Typography variant="h4" sx={{fontFamily:"Rubik"}}>Login</Typography>
       <TextField
         id="username-basic"
         label="Username"
@@ -88,16 +103,20 @@ const LoginPage = () => {
       <TextField
         id="password"
         label="Password"
+        type="password"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
         placeholder="password"
       />
-      <Button onClick={handleEnterSupplier}>Enter as a supplier</Button>
-      <Button onClick={handleEnterSeller}>Enter as a seller</Button>
-      <Typography>{errorMessage}</Typography>
-    </Box>
+      <Stack direction="row">
+        <Button onClick={handleEnterSupplier}>Enter as a supplier</Button>
+        <Button onClick={handleEnterSeller}>Enter as a seller</Button>
+      </Stack>
+      <Button onClick={handleSugnup}>Sign up</Button>
+      <Typography color="error">{errorMessage}</Typography>
+    </Stack>
   );
 };
 export default LoginPage;

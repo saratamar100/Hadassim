@@ -1,16 +1,26 @@
 import { Button, Card, Typography } from "@mui/material";
 
-const OrderCard = ({ onConfirmOrder, status, products, hasButton }) => {
+const OrderCard = ({
+  onConfirmOrder,
+  status,
+  supplierName,
+  products,
+  hasButton,
+}) => {
   return (
-    <Card sx={{ m: 2 }}>
+    <Card sx={{ m: 2, p: 3, minWidth: "170px", minHeight: "100px" }}>
       {products.map((p) => (
         <Typography key={p.productId}>
           {p.amount} {p.productName}
         </Typography>
       ))}
-      <br />
-      <Typography>Status :{status}</Typography>
-      {hasButton && <Button onClick={onConfirmOrder}>Confirm Order</Button>}
+      {status && <Typography mt={1}>Status :{status}</Typography>}
+      {supplierName && <Typography>Supplier :{supplierName}</Typography>}
+      {hasButton && (
+        <Button sx={{ mt: 1 }} onClick={onConfirmOrder}>
+          Confirm Order
+        </Button>
+      )}
     </Card>
   );
 };

@@ -123,9 +123,15 @@ router.get("/seller", verifySellerToken, async (req, res) => {
           "SELECT * FROM OrderProducts NATURAL JOIN Products NATURAL JOIN Suppliers WHERE order_id = ?";
         const values2 = [item.order_id];
         const [results2] = await pool.query(query2, values2);
+
+        if (results2.length > 0) {
+          item.supplierUsername = results2[0].supplier_username;
+          item.supplierName = results2[0].supplier_name;
+        }
+
         item.stock = results2.map((p) => ({
-          supplierUsername: p.supplier_username,
-          supplierName: p.supplier_name,
+          // supplierUsername: p.supplier_username,
+          // supplierName: p.supplier_name,
           productId: p.product_id,
           productName: p.product_name,
           amount: p.amount,
@@ -137,6 +143,8 @@ router.get("/seller", verifySellerToken, async (req, res) => {
       results.map((o) => ({
         orderId: o.order_id,
         status: o.status,
+        supplierName: o.supplierName, 
+        supplierUsername: o.supplierUsername,  
         stock: o.stock,
       }))
     );
@@ -145,6 +153,7 @@ router.get("/seller", verifySellerToken, async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
+
 
 router.post(
   "/statusCompleted/:orderId",

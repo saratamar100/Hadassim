@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserProvider";
 import SuppliersList from "./SuppliersList";
@@ -10,6 +10,9 @@ const MakeOrderPage = () => {
   const [selected, setSelected] = useState();
   const [products, setProducts] = useState([]);
   const [amounts, setAmounts] = useState({});
+  const selectedSupplier = suppliers.find(
+    (s) => s.supplierUsername === selected
+  );
   useEffect(() => {
     setAmounts({});
   }, [selected]);
@@ -97,21 +100,45 @@ const MakeOrderPage = () => {
   };
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ flexGrow: 1 }}>
       <SuppliersList
         suppliers={suppliers}
         selected={selected}
         setSelected={setSelected}
       />
-
-      {selected && (
-        <OrderPanel
-          products={products}
-          amounts={amounts}
-          setAmounts={setAmounts}
-          onSendOrder={handleSendOrder}
-        />
-      )}
+      <Stack justifyContent="center" alignItems="center" margin="auto">
+        {selected && products.length > 0 && (
+          <OrderPanel
+            products={products}
+            amounts={amounts}
+            setAmounts={setAmounts}
+            supplierName={selectedSupplier.supplierName}
+            phone={selectedSupplier.phoneNumber}
+            representativeName={selectedSupplier.representativeName}
+            onSendOrder={handleSendOrder}
+          />
+        )}
+        {!selected && (
+          <Typography
+            variant="h6"
+            color="black"
+            fontWeight="bold"
+            textAlign="center"
+          >
+            Select a Supplier to Make an Order
+          </Typography>
+        )}
+        {selected && products.length === 0 && (
+          <Typography
+            variant="h6"
+            color="black"
+            fontWeight="bold"
+            textAlign="center"
+          >
+            The supplier doesn't have products
+          </Typography>
+        )}
+      </Stack>
     </Stack>
   );
 };

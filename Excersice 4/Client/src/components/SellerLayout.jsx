@@ -1,9 +1,16 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { useContext } from "react";
 import { UserContext } from "./UserProvider";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import styled from "styled-components";
+
+const MyLink = styled(Link)({
+  color: "aliceblue",
+  //backgroundColor: 'aliceblue',
+  padding: 8,
+  // borderRadius: 4,
+  textDecoration: "none",
+});
 
 const SellerLayout = () => {
   const { user, token, updateUser, updateToken } = useContext(UserContext);
@@ -15,31 +22,38 @@ const SellerLayout = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Stack
+      flexDirection="column"
+      sx={{
+        minHeight: "100vh",
+      }}
+    >
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
+          <Typography variant="h6" component="div" sx={{ m: 3 }}>
+            <MyLink to="makeorders">Make Orders</MyLink>
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ m: 3 }}>
+            <MyLink to="vieworders">View Orders</MyLink>
+          </Typography>
+          <Button
             color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+            onClick={handleLeave}
+            sx={{
+              marginLeft: "auto",
+              color: "aliceblue",
+              color: "black",
+              backgroundColor: "aliceblue",
+              padding: 1,
+              borderRadius: 2,
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="makeorders">makeorders</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="vieworders">vieworders</Link>
-          </Typography>
-          <Button color="inherit" onClick={handleLeave}>
             Log Out
           </Button>
         </Toolbar>
       </AppBar>
       <Outlet />
-    </Box>
+    </Stack>
   );
 };
 export default SellerLayout;

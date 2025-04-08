@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import { UserContext } from "./UserProvider";
-import { Box } from "@mui/material";
+import { Box, Grid, Tab, Tabs } from "@mui/material";
 
 const ViewOrdersPage = () => {
   const { user, token, updateUser, updateToken } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
+  const [value, setValue] = useState("Ordered");
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -59,19 +63,31 @@ const ViewOrdersPage = () => {
       console.error("Error:", error);
     }
   };
+
   return (
     <Box>
-      <Box>
-        {orders.map((order) => (
-          <OrderCard
-            key={order.orderId}
-            onConfirmOrder={() => handleConfirmOrder(order.orderId)}
-            status={order.status}
-            products={order.stock}
-            hasButton={order.status === "InProgress"}
-          />
-        ))}
-      </Box>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="disabled tabs example"
+      >
+        <Tab label="Ordered" value="Ordered" />
+        <Tab label="In Progress" value="InProgress" />
+        <Tab label="Completed" value="Completed" />
+      </Tabs>
+      <Grid container>
+        {orders
+          .filter((o) => o.status === value)
+          .map((order) => (
+            <OrderCard
+              key={order.orderId}
+              onConfirmOrder={() => handleConfirmOrder(order.orderId)}
+              supplierName={order.supplierName}
+              products={order.stock}
+              hasButton={order.status === "InProgress"}
+            />
+          ))}
+      </Grid>
     </Box>
   );
 };

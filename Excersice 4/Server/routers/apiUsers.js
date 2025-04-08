@@ -27,7 +27,13 @@ router.post("/loginSupplier", async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    return res.status(200).send({ token });
+    return res.status(200).send({
+      token,
+      supplierUsername: user.supplier_username,
+      supplierName: user.supplier_name,
+      phoneNumber: user.phone_number,
+      representativeName: user.representative_name,
+    });
   } catch (err) {
     console.error("Error processing user data", err);
     res
@@ -64,7 +70,10 @@ router.post("/loginSeller", async (req, res) => {
 });
 
 function confirmSeller(username, password) {
-  return process.env.USERNAME_SELLER === username && process.env.PASSWORD_SELLER === password;
+  return (
+    process.env.USERNAME_SELLER === username &&
+    process.env.PASSWORD_SELLER === password
+  );
 }
 
 router.post("/signupSupplier", async (req, res) => {

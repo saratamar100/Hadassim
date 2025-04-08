@@ -49,6 +49,30 @@ connection.connect(async (err) => {
         price: 5,
         minimalAmount: 5,
       },
+      {
+        suppliersUsername: "tnuva",
+        productName: "Cheese",
+        price: 5,
+        minimalAmount: 10,
+      },
+      {
+        suppliersUsername: "tnuva",
+        productName: "Whipped cream",
+        price: 10,
+        minimalAmount: 15,
+      },
+      {
+        suppliersUsername: "tnuva",
+        productName: "whipped cream",
+        price: 15,
+        minimalAmount: 15,
+      },
+      {
+        suppliersUsername: "tnuva",
+        productName: "Goat milk",
+        price: 12,
+        minimalAmount: 30,
+      },
     ];
     const [{ insertId: productId }] = await connection
       .promise()

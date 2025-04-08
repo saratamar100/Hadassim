@@ -1,4 +1,11 @@
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductsTable from "./ProductsTables";
@@ -14,28 +21,60 @@ const SignupPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [productsRows, setProductsRows] = useState([]);
   const [isTableEdited, setIsTableEdited] = useState(false);
-  const handleSignup = async () => {
-    // validation!
+
+  const validateData = () => {
+    if (
+      !username.trim() ||
+      !name.trim() ||
+      !phone.trim() ||
+      !representativeName.trim() ||
+      !password.trim() ||
+      !passwordVerificaton.trim()
+    ) {
+      setErrorMessage("All fields are required.");
+      return false;
+    }
+    if (
+      isNaN(Number(phone.trim())) ||
+      phone.trim().length < 9 ||
+      phone.trim().length > 10
+    ) {
+      setErrorMessage("Please enter a valid phone number with only digits.");
+      return false;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return false;
+    }
     if (password !== passwordVerificaton) {
       setErrorMessage("The passwords do not match.");
-      return;
+      return false;
     }
     if (isTableEdited) {
       setErrorMessage("The Table is edited.");
-      return;
+      return false;
     }
     if (
+      productsRows.length === 0 ||
       productsRows.some(
         (row) =>
           row.productName === "" || row.price === "" || row.minimalAmount === ""
       )
     ) {
-      setErrorMessage("The Table is not full.");
+      setErrorMessage("The Table is empty.");
+      return false;
+    }
+    return true;
+  };
+  const handleSignup = async () => {
+    const isValid = validateData();
+    if (!isValid) {
       return;
     }
     const stock = productsRows.map((p) => ({
       name: p.productName,
-      price: price,
+      price: p.price,
       minimalAmount: p.minimalAmount,
     }));
     try {
@@ -68,10 +107,21 @@ const SignupPage = () => {
       console.error("Error:", error);
     }
   };
-  console.log(isTableEdited);
+  const handleLogin = () => {
+    navigate("/login");
+  };
   return (
-    <Box>
-      <Typography>Enter</Typography>
+    <Stack
+      gap={2}
+      maxWidth="50%"
+      mx="auto"
+      mt={2}
+      textAlign="center"
+      alignItems="center"
+    >
+      <Typography variant="h5" textAlign="center">
+        Sign Up
+      </Typography>
       <TextField
         required
         id="username"
@@ -81,6 +131,7 @@ const SignupPage = () => {
           setUsername(e.target.value);
         }}
         placeholder="username"
+        sx={{ width: "70%" }}
       />
       <TextField
         required
@@ -91,6 +142,7 @@ const SignupPage = () => {
           setName(e.target.value);
         }}
         placeholder="Company Name"
+        sx={{ width: "70%" }}
       />
       <TextField
         required
@@ -102,6 +154,7 @@ const SignupPage = () => {
           setPhone(e.target.value);
         }}
         placeholder="Telephone"
+        sx={{ width: "70%" }}
       />
       <TextField
         required
@@ -112,6 +165,7 @@ const SignupPage = () => {
           setRepresentativeName(e.target.value);
         }}
         placeholder="Representative Name"
+        sx={{ width: "70%" }}
       />
       <TextField
         required
@@ -123,6 +177,7 @@ const SignupPage = () => {
           setPassword(e.target.value);
         }}
         placeholder="Password"
+        sx={{ width: "70%" }}
       />
       <TextField
         required
@@ -134,15 +189,25 @@ const SignupPage = () => {
           setPasswordVerificaton(e.target.value);
         }}
         placeholder="Password Verification"
+        sx={{ width: "70%" }}
       />
       <ProductsTable
         rows={productsRows}
         setRows={setProductsRows}
         setIsTableEdited={setIsTableEdited}
       />
-      <Button onClick={handleSignup}>Sign Up</Button>
-      <Typography>{errorMessage}</Typography>
-    </Box>
+      <Typography
+        mt={1}
+        color="error"
+        sx={{ visibility: errorMessage ? "visible" : "hidden" }}
+      >
+        {errorMessage || "error"}
+      </Typography>
+      <Stack direction="row" mb={5}>
+        <Button onClick={handleSignup}>Sign Up</Button>
+        <Button onClick={handleLogin}>Have an account? Log in</Button>
+      </Stack>
+    </Stack>
   );
 };
 export default SignupPage;

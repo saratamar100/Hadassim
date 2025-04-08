@@ -42,8 +42,6 @@ function EditToolbar(props) {
 export default function ProductsTable({ rows, setRows, setIsTableEdited }) {
   const [rowModesModel, setRowModesModel] = useState({});
 
-  console.log(rowModesModel);
-
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -97,14 +95,14 @@ export default function ProductsTable({ rows, setRows, setIsTableEdited }) {
     {
       field: "productName",
       headerName: "Product Name",
-      width: 180,
+      flex: 3,
       editable: true,
     },
     {
       field: "price",
       headerName: "Price",
       type: "number",
-      width: 80,
+      flex: 2,
       align: "left",
       headerAlign: "left",
       editable: true,
@@ -113,7 +111,7 @@ export default function ProductsTable({ rows, setRows, setIsTableEdited }) {
       field: "minimalAmount",
       headerName: "Mininal Amount to Order",
       type: "number",
-      width: 80,
+      flex: 2,
       align: "left",
       headerAlign: "left",
       editable: true,
@@ -122,7 +120,7 @@ export default function ProductsTable({ rows, setRows, setIsTableEdited }) {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      flex: 1,
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
