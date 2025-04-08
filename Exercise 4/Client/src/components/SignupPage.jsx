@@ -119,11 +119,10 @@ const SignupPage = () => {
       textAlign="center"
       alignItems="center"
     >
-      <Typography variant="h5" textAlign="center">
+      <Typography variant="h4" sx={{ fontFamily: "Rubik" }} textAlign="center">
         Sign Up
       </Typography>
       <TextField
-        required
         id="username"
         label="Username"
         value={username}
@@ -131,10 +130,9 @@ const SignupPage = () => {
           setUsername(e.target.value);
         }}
         placeholder="username"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <TextField
-        required
         id="name"
         label="Company Name"
         value={name}
@@ -142,10 +140,9 @@ const SignupPage = () => {
           setName(e.target.value);
         }}
         placeholder="Company Name"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <TextField
-        required
         id="phone"
         label="Telephone"
         value={phone}
@@ -154,10 +151,9 @@ const SignupPage = () => {
           setPhone(e.target.value);
         }}
         placeholder="Telephone"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <TextField
-        required
         id="representativeName"
         label="Representative Name"
         value={representativeName}
@@ -165,10 +161,9 @@ const SignupPage = () => {
           setRepresentativeName(e.target.value);
         }}
         placeholder="Representative Name"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <TextField
-        required
         id="password"
         label="Password"
         value={password}
@@ -177,10 +172,9 @@ const SignupPage = () => {
           setPassword(e.target.value);
         }}
         placeholder="Password"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <TextField
-        required
         id="passwordVerification"
         label="Password Verification"
         value={passwordVerificaton}
@@ -189,7 +183,7 @@ const SignupPage = () => {
           setPasswordVerificaton(e.target.value);
         }}
         placeholder="Password Verification"
-        sx={{ width: "70%" }}
+        sx={{ width: "70%", bgcolor: "white" }}
       />
       <ProductsTable
         rows={productsRows}

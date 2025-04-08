@@ -10,7 +10,6 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (token && user) {
       if (user.role === "supplier") {
@@ -19,8 +18,7 @@ const LoginPage = () => {
         navigate("/seller");
       }
     }
-  }, [token, user]); 
-
+  }, [token, user]);
 
   const handleEnterSupplier = async () => {
     try {
@@ -90,7 +88,9 @@ const LoginPage = () => {
   };
   return (
     <Stack gap={1} sx={{ mt: 25, alignItems: "center" }}>
-      <Typography variant="h4" sx={{fontFamily:"Rubik"}}>Login</Typography>
+      <Typography variant="h4" sx={{ fontFamily: "Rubik" }}>
+        Login
+      </Typography>
       <TextField
         id="username-basic"
         label="Username"
@@ -99,6 +99,7 @@ const LoginPage = () => {
           setUsername(e.target.value);
         }}
         placeholder="username"
+        sx={{ bgcolor: "white" }}
       />
       <TextField
         id="password"
@@ -109,6 +110,7 @@ const LoginPage = () => {
           setPassword(e.target.value);
         }}
         placeholder="password"
+        sx={{ bgcolor: "white" }}
       />
       <Stack direction="row">
         <Button onClick={handleEnterSupplier}>Enter as a supplier</Button>
