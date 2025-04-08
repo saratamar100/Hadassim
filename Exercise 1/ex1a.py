@@ -21,8 +21,8 @@ def find_n_common(file_path, N):
         if section == "":
             break
         lines = section.split("\n")
-        if len(lines[-1]) > 2:
-            print("ERROR!!!!!!!!!!!!!!!!!!!!")
+        # if len(lines[-1]) > 2:
+        #     print("ERROR!!!!!!!!!!!!!!!!!!!!")
         freq = dict()
         for line in lines[:-1]:
             _, date, hour, _, error = line.split()
